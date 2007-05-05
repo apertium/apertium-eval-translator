@@ -1,0 +1,20 @@
+apertium-eval-translator 1.0.0
+-------------------------------------------------------------------
+
+Simple Perl script to evaluate Apertium-based machine translation
+systems.
+
+This software calculates (at document level) the word error rate (WER)
+and the position-independent word error rate (PER) between a
+translation performed by the Apertium MT system and a reference
+translation obtained by post-editing the system output.
+
+For more information execute the script (after installation) 
+without arguments
+
+$ apertium-eval-translator
+
+-------------------------------------------------------------------
+
+Suggestions are very welcome. Please write to Felipe Sánchez Martínez
+at fsanchez@dlsi.ua.es .

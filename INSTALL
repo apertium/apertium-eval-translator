@@ -1,0 +1,10 @@
+Installation procedure:
+
+1. Make sure that perl is properly installed
+
+2. Execute the install.sh script as root. If no path
+   is provided the script will be installed in /usr/local/bin
+
+   # ./install.sh
+
+Good luck!
