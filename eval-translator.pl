@@ -113,9 +113,12 @@ print "\n";
 print "Statistics about the translation of unknown words\n";
 print "-------------------------------------------------------\n";
 print "Number of unknown words which were free rides: ", $distance-$distance_nounk, "\n";
+if($nunknown > 0) {
 print "Percentage of unknown words that were free rides: ", 
        sprintf("%.2f",(($distance-$distance_nounk)/$nunknown)*100), " %\n";
-
+}else{
+print "Percentage of unknown words that were free rides: 0%\n";
+}
 
 sub position_independent_errors {
 
