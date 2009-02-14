@@ -1,4 +1,4 @@
-Installation procedure:
+Installation procedure for apertium-eval-translator:
 
 1. Make sure that perl is properly installed
 
@@ -8,3 +8,7 @@ Installation procedure:
    # ./install.sh
 
 Good luck!
+
+
+If you want to use the alternative apertium-eval script, just copy it to a
+directory in your PATH.

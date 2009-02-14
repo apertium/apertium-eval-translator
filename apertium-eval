@@ -1,5 +1,5 @@
-#!/bin/sh
- # (c) 2007 Mikel L. Forcada
+#!/bin/bash
+# (c) 2007 Mikel L. Forcada
 #
 # This script approximates the word error rate (WER) between
 # a translation
