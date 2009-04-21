@@ -256,7 +256,7 @@ and the postion-independent word error rate (PER) between a
 translation performed by the Apertium MT system and a reference
 translation obtained by post-editing the system ouput. 
 
-It is assumed that unknow words are marked with a start (*), as
+It is assumed that unknow words are marked with a star (*), as
 Apertium does; nevertheless, it can be easily adapted to evaluate
 other MT systems that do not mark unknown words with a star.
 
