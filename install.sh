@@ -17,7 +17,7 @@ fi
 
 echo "Copying apertium-eval-translator in $TARGET_PATH"
 
-echo -n "#!" > apertium-eval-translator
+printf "#!" > apertium-eval-translator
 echo "$PERLPATH -w " >> apertium-eval-translator
 cat eval-translator.pl >> apertium-eval-translator
 chmod +x apertium-eval-translator
