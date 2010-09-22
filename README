@@ -17,8 +17,7 @@ $ apertium-eval-translator
 apertium-eval-translator-line.pl
 -------------------------------------------------------------------
 Similar to apertium-eval-translator but it assumes that test and reference
-translations has the same number of sentences and are in the
-one-sentence-per-line format
+files has the same number of sentences and are in the one-sentence-per-line format
 
 bootstrap_resampling.pl
 -------------------------------------------------------------------
