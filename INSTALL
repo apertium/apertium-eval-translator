@@ -2,13 +2,12 @@ Installation procedure for apertium-eval-translator:
 
 1. Make sure that perl is properly installed
 
-2. Execute the install.sh script as root. If no path
-   is provided the script will be installed in /usr/local/bin
+2. Edit file apertium-eval-translator-line.pl, apertium-eval-translator.pl 
+   and bootstrap_resampling.pl and change the first line if needed and copy
+   these files to your PATH. 
 
-   # ./install.sh
+   To know where perl is installed in your system type which perl in the
+   command line
 
-Good luck!
-
-
-If you want to use the alternative apertium-eval script, just copy it to a
-directory in your PATH.
+3. If you want to use the alternative apertium-eval script, just copy it to a
+   directory in your PATH.

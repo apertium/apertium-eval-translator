@@ -1,3 +1,4 @@
+#!/usr/bin/perl -w 
 
 # (c) 2006 Felipe Sánchez Martínez
 # (c) 2006 Universitat d'Alacant
@@ -40,7 +41,7 @@ GetOptions( 'test|t=s'           => \$test,
           ) || pod2usage(2);
 
 if ($version) {
-   print "apertium-eval-translator 1.0.0\n";
+   print "apertium-eval-translator 1.1.0\n";
    exit 0;
 }
 
@@ -260,7 +261,7 @@ It is assumed that unknow words are marked with a star (*), as
 Apertium does; nevertheless, it can be easily adapted to evaluate
 other MT systems that do not mark unknown words with a star.
 
-(c) 2006 Felipe Sánchez Martínez
+(c) 2006 Felipe Sánchez-Martínez
 (c) 2006 Universitat d'Alacant
 
 This software is licensed under the GNU GENERAL PUBLIC LICENSE version

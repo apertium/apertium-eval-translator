@@ -1,4 +1,9 @@
-eval-translator.pl:
+apertium-eval-translator.pl:
+
+(c) 2006 Felipe Sánchez Martínez
+(c) 2006 Universitat d'Alacant
+
+apertium-eval-translator-line.pl:
 
 (c) 2006 Felipe Sánchez Martínez
 (c) 2006 Universitat d'Alacant
@@ -6,4 +11,9 @@ eval-translator.pl:
 apertium-eval:
 
 (c) 2007 Mikel L. Forcada
+(c) 2007 Universitat d'Alacant
+
+bootstrap_resampling.pl:
+
+(c) 2007 Felipe Sánchez Martínez
 (c) 2007 Universitat d'Alacant
