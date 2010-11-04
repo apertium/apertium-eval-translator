@@ -41,7 +41,7 @@ GetOptions( 'test|t=s'           => \$test,
           ) || pod2usage(2);
 
 if ($version) {
-   print "apertium-eval-translator 1.1.0\n";
+   print "apertium-eval-translator 1.2.0\n";
    exit 0;
 }
 
@@ -87,10 +87,10 @@ my $distance_nounk=&edit_distance;
 print "Results when removing unknown-word marks (stars)\n";
 print "-------------------------------------------------------\n";
 print "Edit distance: $distance_nounk\n";
-print "Word error rate (WER): ", sprintf("%.2f",($distance_nounk/$ntest)*100), " %\n";
-my $per_nounk=&position_independent_errors;
-print "Number of position-independent word errors: ",  $per_nounk, "\n";
-print "Position-independent word error rate (PER): ", sprintf("%.2f",($per_nounk/$ntest)*100), " %\n";
+print "Word error rate (WER): ", sprintf("%.2f",($distance_nounk/$nref)*100), " %\n";
+my $per_nounk=&position_independent_correct_words;
+print "Number of position-independent correct words: ",  $per_nounk, "\n";
+print "Position-independent word error rate (PER): ", sprintf("%.2f", (1 - (($per_nounk - max(0, $ntest - $nref)) / $nref))*100), " %\n";
 
 print "\n";
 
@@ -104,10 +104,10 @@ my $distance=&edit_distance;
 print "Results when unknown-word marks (stars) are not removed\n";
 print "-------------------------------------------------------\n";
 print "Edit distance: $distance\n";
-print "Word Error Rate (WER): ", sprintf("%.2f",($distance/$ntest)*100), " %\n";
-my $per=&position_independent_errors;
-print "Number of position-independent word errors: ",  $per, "\n";
-print "Position-independent word error rate (PER): ", sprintf("%.2f",($per/$ntest)*100), " %\n";
+print "Word Error Rate (WER): ", sprintf("%.2f",($distance/$nref)*100), " %\n";
+my $per=&position_independent_correct_words;
+print "Number of position-independent correct words: ",  $per, "\n";
+print "Position-independent word error rate (PER): ", sprintf("%.2f",(1 - (($per - max(0, $ntest - $nref)) / $nref))*100), " %\n";
 
 print "\n";
 
@@ -121,58 +121,26 @@ print "Percentage of unknown words that were free rides: ",
 print "Percentage of unknown words that were free rides: 0%\n";
 }
 
-sub position_independent_errors {
-
-  #Words that have no matching counterparts are counted as
-  #substitution errors. Depending on which corpus, test or reference,
-  #is longer the remaining words result in either insertion or
-  #deletion errors.  The number of position-independent errors are
-  #always less or equal to the edit distance.
-
+sub position_independent_correct_words {
   my (%hash_test, %hash_ref);
 
-  foreach (sort @words_test) {
-    if (defined($hash_test{$_})) {
-      $hash_test{$_}++;
-    } else {
-      $hash_test{$_}=1;
-    }
+  foreach (@words_test) {
+    $hash_test{$_}++;
   }
 
-  foreach (sort @words_ref) {
-    if (defined($hash_ref{$_})) {
-      $hash_ref{$_}++;
-    } else {
-      $hash_ref{$_}=1;
-    }
+  foreach (@words_ref) {
+    $hash_ref{$_}++;
   }
 
-  my $ntest = @words_test;
-  my $nref = @words_ref;
-
-  my $sum=0;
+  my $correct=0;
 
   foreach (keys %hash_test) {
     if(defined($hash_ref{$_})) {
-      $sum+=abs($hash_test{$_}-$hash_ref{$_});
-    } else {
-      $sum+=$hash_test{$_};
+      $correct += min($hash_test{$_}, $hash_ref{$_});
     }
-    $hash_test{$_}=0;
-    $hash_ref{$_}=0;
   }
-
-  foreach (keys %hash_ref) {
-    if(defined($hash_test{$_})) {   
-      $sum+=abs($hash_ref{$_}-$hash_test{$_});
-    } else {
-      $sum+=$hash_ref{$_};
-    }
-    $hash_ref{$_}=0;
-    $hash_test{$_}=0;
-  }
-
-  return (abs($ntest-$nref)+$sum)/2;
+  
+  return $correct;
 }
 
 sub edit_distance {
@@ -197,7 +165,7 @@ sub edit_distance {
 
     for $j ($lim_inf..$lim_sup){
       my $cost=($words_test[$i] ne $words_ref[$j]);
-      $next=min([$W[$j+1]+1, $cur+1, $cost+$W[$j]]);
+      $next=min($W[$j+1]+1, $cur+1, $cost+$W[$j]);
       $W[$j]=$cur;
 
       $best_j=$j+1 if ($cur > $next);
@@ -210,13 +178,23 @@ sub edit_distance {
 }
 
 sub min {
-  my @list = @{$_[0]};
+  my @list = @_;
   my $min = $list[0];
 
   foreach my $i (@list) {
     $min = $i if ($i < $min);
   }
    return $min;
+}
+
+sub max {
+  my @list = @_;
+  my $max = $list[0];
+
+  foreach my $i (@list) {
+    $max = $i if ($i > $max);
+  }
+   return $max;
 }
 
 sub preprocess {

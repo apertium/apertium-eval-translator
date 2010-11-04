@@ -46,7 +46,7 @@ GetOptions( 'test|t=s'           => \$test,
           ) || pod2usage(2);
 
 if ($version) {
-   print "apertium-eval-translator-line 1.1.0\n";
+   print "apertium-eval-translator-line 1.2.0\n";
    exit 0;
 }
 
@@ -74,13 +74,8 @@ while(<TEST>) {
   @words_ref = split /[\s\n]+/;
   $nref+=@words_ref;
 
-  #print "TEST: $test_corpus\n";
-  #print "REF:  $ref_corpus\n";
   $distance_nounk+=&edit_distance; 
-  #print "WER: ", sprintf("%.2f",($distance_nounk/$ntest)*100), " %\t";
-  $per_nounk+=&position_independent_errors;
-  #print "PER: ", sprintf("%.2f",($per_nounk/$ntest)*100), " %\n";
-  #print "\n";
+  $per_nounk+=&position_independent_correct_words;
 }
 
 close(TEST);
@@ -98,65 +93,33 @@ print "\n";
 print "Results when removing unknown-word marks (stars)\n";
 print "-------------------------------------------------------\n";
 print "Edit distance: $distance_nounk\n";
-print "Word error rate (WER): ", sprintf("%.2f",($distance_nounk/$ntest)*100), " %\n";
-print "Number of position-independent word errors: ",  $per_nounk, "\n";
-print "Position-independent word error rate (PER): ", sprintf("%.2f",($per_nounk/$ntest)*100), " %\n";
+print "Word error rate (WER): ", sprintf("%.2f",($distance_nounk/$nref)*100), " %\n";
+print "Number of position-independent correct words: ",  $per_nounk, "\n";
+print "Position-independent word error rate (PER): ", sprintf("%.2f",(1 - (($per_nounk - max(0, $ntest - $nref)) / $nref))*100), " %\n";
 
 print "\n";
 
 
-sub position_independent_errors {
-
-  #Words that have no matching counterparts are counted as
-  #substitution errors. Depending on which corpus, test or reference,
-  #is longer the remaining words result in either insertion or
-  #deletion errors.  The number of position-independent errors are
-  #always less or equal to the edit distance.
-
+sub position_independent_correct_words {
   my (%hash_test, %hash_ref);
 
-  foreach (sort @words_test) {
-    if (defined($hash_test{$_})) {
-      $hash_test{$_}++;
-    } else {
-      $hash_test{$_}=1;
-    }
+  foreach (@words_test) {
+    $hash_test{$_}++;
   }
 
-  foreach (sort @words_ref) {
-    if (defined($hash_ref{$_})) {
-      $hash_ref{$_}++;
-    } else {
-      $hash_ref{$_}=1;
-    }
+  foreach (@words_ref) {
+    $hash_ref{$_}++;
   }
 
-  my $ntest = @words_test;
-  my $nref = @words_ref;
-
-  my $sum=0;
+  my $correct=0;
 
   foreach (keys %hash_test) {
     if(defined($hash_ref{$_})) {
-      $sum+=abs($hash_test{$_}-$hash_ref{$_});
-    } else {
-      $sum+=$hash_test{$_};
+      $correct += min($hash_test{$_}, $hash_ref{$_});
     }
-    $hash_test{$_}=0;
-    $hash_ref{$_}=0;
   }
-
-  foreach (keys %hash_ref) {
-    if(defined($hash_test{$_})) {   
-      $sum+=abs($hash_ref{$_}-$hash_test{$_});
-    } else {
-      $sum+=$hash_ref{$_};
-    }
-    $hash_ref{$_}=0;
-    $hash_test{$_}=0;
-  }
-
-  return (abs($ntest-$nref)+$sum)/2;
+  
+  return $correct;
 }
 
 sub edit_distance {
@@ -170,7 +133,7 @@ sub edit_distance {
 
     for $j (0..$#words_ref){
       my $cost=($words_test[$i] ne $words_ref[$j]);
-      $next=min([$W[$j+1]+1, $cur+1, $cost+$W[$j]]);
+      $next=min($W[$j+1]+1, $cur+1, $cost+$W[$j]);
       $W[$j]=$cur;
 
       $best_j=$j+1 if ($cur > $next);
@@ -183,13 +146,23 @@ sub edit_distance {
 }
 
 sub min {
-  my @list = @{$_[0]};
+  my @list = @_;
   my $min = $list[0];
 
   foreach my $i (@list) {
     $min = $i if ($i < $min);
   }
    return $min;
+}
+
+sub max {
+  my @list = @_;
+  my $max = $list[0];
+
+  foreach my $i (@list) {
+    $max = $i if ($i > $max);
+  }
+   return $max;
 }
 
 sub preprocess {
