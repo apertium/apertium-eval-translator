@@ -52,11 +52,15 @@ my $line = 0;
 
 while(<TEST>) {
   chomp;
-  @words_test = split /[\s\n]+/;
+  s/^\s+//g; 
+  s/\s+$//g;
+  @words_test = split /\s+/;
 
   $_=<REF>;
-  chomp:
-  @words_ref = split /[\s\n]+/;
+  chomp;
+  s/^\s+//g; 
+  s/\s+$//g;
+  @words_ref = split /\s+/;
 
   $line++;
 
@@ -77,8 +81,9 @@ sub edit_distance {
   my @W=(0..@words_ref);
   my ($i, $j, $cur, $next);
 
-  my ($lim_inf, $lim_sup, $best_j);
-  $best_j=0;
+  return scalar(@words_ref) if (scalar(@words_test) == 0);
+  return scalar(@words_test) if (scalar(@words_ref) == 0);
+
   for $i (0..$#words_test) {
     $cur=$i+1;
 
@@ -86,8 +91,6 @@ sub edit_distance {
       my $cost=($words_test[$i] ne $words_ref[$j]);
       $next=min($W[$j+1]+1, $cur+1, $cost+$W[$j]);
       $W[$j]=$cur;
-
-      $best_j=$j+1 if ($cur > $next);
 
       $cur=$next;
     }
@@ -134,4 +137,3 @@ This software is licensed under the GNU GENERAL PUBLIC LICENSE version
 3, or at your option any latter version. See
 http://www.gnu.org/copyleft/gpl.html for a complete version of the
 license.
-

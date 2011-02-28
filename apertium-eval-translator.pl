@@ -198,8 +198,8 @@ sub max {
 }
 
 sub preprocess {
-  #Insert spaces before and after  punctuation marks 
-  #s/([.,;:%¿?¡!()\[\]{}<>])/ $1 /g;
+  s/^\s+//g; 
+  s/\s+$//g;
 }
 
 

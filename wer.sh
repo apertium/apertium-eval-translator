@@ -11,5 +11,4 @@ then
   exit 1
 fi
 
-apertium-eval-translator-line.pl -t $TEST -r $REF | grep "(WER)" | awk '{print $5}'
-
+WER.pl -t $TEST -r $REF

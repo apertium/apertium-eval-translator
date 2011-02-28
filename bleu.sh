@@ -11,24 +11,31 @@ then
   exit 1
 fi
 
-function gen_sgm_file {
+function gen_xml_file {
   # $1=infile
   # $2=tstset|srcset|refset
   # $3=outfile
   # $4=sysid
 
-  echo "<"$2" setid=\"mteval-01\" srclang=\"Source\" trglang=\"Target\">" > $3
-  echo "<DOC docid=\"01\" sysid=\""$4"\">" >> $3
-  cat  $1 | sed -re "s/[*](\w+)/\1/g" | gawk '{print "<seg>"$0"</seg>"}' >> $3
-  echo "</DOC>" >> $3
+  echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" > $3
+  echo "<!DOCTYPE mteval SYSTEM \"ftp://jaguar.ncsl.nist.gov/mt/resources/mteval-xml-v1.3.dtd\">" >> $3
+  echo "<mteval>" >> $3
+
+  echo "<"$2" setid=\"mteval-01\" srclang=\"Source\" trglang=\"Target\" refid=\""$4"\" sysid=\""$4"\">" >> $3
+  
+  echo "<doc docid=\"01\" genre=\"genre\">" >> $3
+  cat  $1 | gawk 'BEGIN{id=1}{print "<p><seg id=\""id"\">"$0"</seg></p>"; id++}' >> $3
+  echo "</doc>" >> $3
   echo "</"$2">" >> $3
+  
+  echo "</mteval>" >> $3
 }
 
 
-gen_sgm_file $SRC "srcset" $SRC"-"$$".sgm" "APERTIUM"
-gen_sgm_file $TEST "tstset" $TEST"-"$$".sgm" "APERTIUM"
-gen_sgm_file $REF "refset" $REF"-"$$".sgm" "APERTIUM"
+gen_xml_file $SRC "srcset" $SRC"-"$$".xml" "SYS"
+gen_xml_file $TEST "tstset" $TEST"-"$$".xml" "SYS"
+gen_xml_file $REF "refset" $REF"-"$$".xml" "SYS"
 
-mteval-v11b.pl -b -r $REF-$$.sgm -s $SRC-$$.sgm -t $TEST-$$.sgm | grep "BLEU score" | mawk '{print $4 *100}'
+mteval-v13a.pl -r $REF-$$.xml -s $SRC-$$.xml -t $TEST-$$.xml | grep "BLEU score" | gawk '{print $8}'
 
-rm -f $SRC"-"$$".sgm" $TEST"-"$$".sgm" $REF"-"$$".sgm"
+rm -f $SRC"-"$$".xml" $TEST"-"$$".xml" $REF"-"$$".xml"

@@ -65,13 +65,13 @@ while(<TEST>) {
   &preprocess;
   $test_corpus=$_;
   $nunknown+=s/[*](\w+)/$1/g;
-  @words_test = split /[\s\n]+/;
+  @words_test = split /\s+/;
   $ntest+=@words_test;
 
   $_=<REF>;
   &preprocess;
   $ref_corpus=$_;
-  @words_ref = split /[\s\n]+/;
+  @words_ref = split /\s+/;
   $nref+=@words_ref;
 
   $distance_nounk+=&edit_distance; 
@@ -126,8 +126,6 @@ sub edit_distance {
   my @W=(0..@words_ref);
   my ($i, $j, $cur, $next);
 
-  my ($lim_inf, $lim_sup, $best_j);
-  $best_j=0;
   for $i (0..$#words_test) {
     $cur=$i+1;
 
@@ -135,8 +133,6 @@ sub edit_distance {
       my $cost=($words_test[$i] ne $words_ref[$j]);
       $next=min($W[$j+1]+1, $cur+1, $cost+$W[$j]);
       $W[$j]=$cur;
-
-      $best_j=$j+1 if ($cur > $next);
 
       $cur=$next;
     }
@@ -167,8 +163,8 @@ sub max {
 
 sub preprocess {
   chomp;
-  #Insert spaces before and after  punctuation marks 
-  #s/([.,;:%¿?¡!()\[\]{}<>])/ $1 /g;
+  s/^\s+//g; 
+  s/\s+$//g;
 }
 
 

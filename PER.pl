@@ -49,11 +49,15 @@ my $line = 0;
 
 while(<TEST>) {
   chomp;
-  @words_test = split /[\s\n]+/;
+  s/^\s+//g; 
+  s/\s+$//g;
+  @words_test = split /\s+/;
 
   $_=<REF>;
   chomp;
-  @words_ref = split /[\s\n]+/;
+  s/^\s+//g; 
+  s/\s+$//g;
+  @words_ref = split /\s+/;
 
   $line++;
 
