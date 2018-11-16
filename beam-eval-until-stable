@@ -25,11 +25,11 @@ while true; do
     out=$(./apertium-eval-translator.pl -b $b "$@")
     cur=$(grep -m1 WER <<<"${out}")
     if [[ "$last" = "$cur" ]]; then
-        echo "Stabilised; got the same result as with -beam $lastb: $cur"
+        echo "Stabilised; got the same result as with -beam $lastb: $cur" >&2
         echo "${out}"
         break
     else
-        echo "got $cur"
+        echo "got $cur" >&2
         lastb="$b"
         (( b += b ))
         last="$cur"
