@@ -21,7 +21,7 @@ last=-1
 b=5
 
 while true; do
-    printf "Trying -beam %s …\t" "$b"
+    printf "Trying -beam %s …\t" "$b" >&2
     out=$("$(dirname "$0")"/apertium-eval-translator.pl -b $b "$@")
     cur=$(grep -m1 WER <<<"${out}")
     if [[ "$last" = "$cur" ]]; then
