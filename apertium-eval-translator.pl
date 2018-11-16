@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w 
 
-# (c) 2006 Felipe Sánchez Martínez
+# (c) 2006 Felipe SÃ¡nchez MartÃ­nez
 # (c) 2006 Universitat d'Alacant
 #
 # This software calculates the word error rate (WER) and the
@@ -18,6 +18,7 @@
 
 use strict; 
 use warnings;
+use utf8;
 
 # Getting command line arguments:
 use Getopt::Long;
@@ -225,7 +226,8 @@ Options:
 Note: The <n> value provided with -beam is language-pair dependent.
       The closer the languages involved are, the lesser <n> can be
       without affecting the evaluation results.  This parameter only
-      affects the WER evaluation.
+      affects the WER evaluation, so when using -beam, you may
+      surprisingly end up with PER numbers higher than the WER.
 
 Note: Reference translation MUST have no unknown-word marks, even if
       they are free rides.
@@ -239,7 +241,7 @@ It is assumed that unknown words are marked with a star (*), as
 Apertium does; nevertheless, it can be easily adapted to evaluate
 other MT systems that do not mark unknown words with a star.
 
-(c) 2006 Felipe Sánchez-Martínez
+(c) 2006 Felipe SÃ¡nchez-MartÃ­nez
 (c) 2006 Universitat d'Alacant
 
 This software is licensed under the GNU GENERAL PUBLIC LICENSE version
