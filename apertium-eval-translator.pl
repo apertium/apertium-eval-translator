@@ -1,4 +1,5 @@
-#!/usr/bin/perl -w 
+#!/usr/bin/perl
+# -*- mode: cperl; indent-tabs-mode: nil; tab-width: 3; cperl-indent-level: 3; -*-
 
 # (c) 2006 Felipe Sánchez Martínez
 # (c) 2006 Universitat d'Alacant
@@ -7,18 +8,26 @@
 # position-independent word error rate (PER) between the translation
 # performed by the apertium MT system an a reference translation
 # obtained by post-editing the system ouput.
-# 
-# The edit_distance procedure used in this script is based on 
-# the Levenshtein distance implementation by Jorge Mas Trullenque 
-# that can be found in http://www.merriampark.com/ldperl2.htm 
+#
+# The edit_distance procedure used in this script is based on
+# the Levenshtein distance implementation by Jorge Mas Trullenque
+# that can be found in http://www.merriampark.com/ldperl2.htm
 #
 # This software is licensed under the GPL license version 2, or at
-# your option any later version 
+# your option any later version
 #
 
-use strict; 
+use strict;
 use warnings;
 use utf8;
+
+BEGIN {
+   $| = 1;
+   binmode(STDIN, ':encoding(UTF-8)');
+   binmode(STDOUT, ':encoding(UTF-8)');
+}
+use open qw( :encoding(UTF-8) :std );
+use feature 'unicode_strings';
 
 # Getting command line arguments:
 use Getopt::Long;
@@ -38,7 +47,7 @@ GetOptions( 'test|t=s'           => \$test,
             'ref|r=s'            => \$ref,
             'beam|b=n'           => \$beam,
             'help|h'             => \$help,
-	    'version|v'          => \$version,
+            'version|v'          => \$version,
           ) || pod2usage(2);
 
 if ($version) {
@@ -84,7 +93,7 @@ print "Number of unknown words (marked with a star) in test: $nunknown\n";
 print "Percentage of unknown words: ", sprintf("%.2f",($nunknown/$ntest)*100), " %\n";
 print "\n";
 
-my $distance_nounk=&edit_distance; 
+my $distance_nounk=&edit_distance;
 print "Results when removing unknown-word marks (stars)\n";
 print "-------------------------------------------------------\n";
 print "Edit distance: $distance_nounk\n";
@@ -101,7 +110,7 @@ $_=$test_corpus;
 $_=$ref_corpus;
 @words_ref = split /[\s\n]+/;
 
-my $distance=&edit_distance; 
+my $distance=&edit_distance;
 print "Results when unknown-word marks (stars) are not removed\n";
 print "-------------------------------------------------------\n";
 print "Edit distance: $distance\n";
@@ -116,10 +125,10 @@ print "Statistics about the translation of unknown words\n";
 print "-------------------------------------------------------\n";
 print "Number of unknown words which were free rides: ", $distance-$distance_nounk, "\n";
 if($nunknown > 0) {
-print "Percentage of unknown words that were free rides: ", 
-       sprintf("%.2f",(($distance-$distance_nounk)/$nunknown)*100), " %\n";
-}else{
-print "Percentage of unknown words that were free rides: 0%\n";
+   print "Percentage of unknown words that were free rides: ", sprintf("%.2f",(($distance-$distance_nounk)/$nunknown)*100), " %\n";
+}
+else{
+   print "Percentage of unknown words that were free rides: 0%\n";
 }
 
 sub position_independent_correct_words {
@@ -140,7 +149,7 @@ sub position_independent_correct_words {
       $correct += min($hash_test{$_}, $hash_ref{$_});
     }
   }
-  
+
   return $correct;
 }
 
@@ -154,7 +163,7 @@ sub edit_distance {
     $cur=$i+1;
 
     if($beam>0) {
-      $lim_inf=$best_j-$beam; 
+      $lim_inf=$best_j-$beam;
       $lim_inf=0 if ($lim_inf<0);
 
       $lim_sup=$best_j+$beam;
@@ -199,7 +208,7 @@ sub max {
 }
 
 sub preprocess {
-  s/^\s+//g; 
+  s/^\s+//g;
   s/\s+$//g;
 }
 
@@ -215,14 +224,14 @@ apertium-eval-translator -test testfile -ref reffile [-beam <n>]
 
 Options:
 
-  -test|-t     Specify the file with the translation to evaluate 
-  -ref|-r      Specify the file with the reference translation 
-  -beam|-b     Perform a beam search by looking only to the <n> previous 
-               and <n> posterior neigboring words (optional parameter 
+  -test|-t     Specify the file with the translation to evaluate
+  -ref|-r      Specify the file with the reference translation
+  -beam|-b     Perform a beam search by looking only to the <n> previous
+               and <n> posterior neigboring words (optional parameter
                to make the evaluation much faster)
   -help|-h     Show this help message
   -version|-v  Show version information and exit
-  
+
 Note: The <n> value provided with -beam is language-pair dependent.
       The closer the languages involved are, the lesser <n> can be
       without affecting the evaluation results.  This parameter only
@@ -235,7 +244,7 @@ Note: Reference translation MUST have no unknown-word marks, even if
 This software calculates (at document level) the word error rate (WER)
 and the postion-independent word error rate (PER) between a
 translation performed by the Apertium MT system and a reference
-translation obtained by post-editing the system ouput. 
+translation obtained by post-editing the system ouput.
 
 It is assumed that unknown words are marked with a star (*), as
 Apertium does; nevertheless, it can be easily adapted to evaluate
