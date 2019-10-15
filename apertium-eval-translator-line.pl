@@ -1,22 +1,23 @@
-#!/usr/bin/perl -w 
+#!/usr/bin/perl -w
+use utf8;
 
-# (c) 2006 Felipe Sánchez Martínez
+# (c) 2006 Felipe SÃ¡nchez MartÃ­nez
 # (c) 2006 Universitat d'Alacant
 #
 # This software calculates the word error rate (WER) and the
 # position-independent word error rate (PER) between the translation
 # performed by the apertium MT system an a reference translation
 # obtained by post-editing the system ouput.
-# 
-# The edit_distance procedure used in this script is based on 
-# the Levenshtein distance implementation by Jorge Mas Trullenque 
-# that can be found in http://www.merriampark.com/ldperl2.htm 
 #
-# This software is licensed under the GPL license version 2, or at
-# your option any later version 
+# The edit_distance procedure used in this script is based on
+# the Levenshtein distance implementation by Jorge Mas Trullenque
+# that can be found in http://www.merriampark.com/ldperl2.htm
+#
+# This software is licensed under the GPL license version 3, or at
+# your option any later version
 #
 
-use strict; 
+use strict;
 use warnings;
 
 # Getting command line arguments:
@@ -74,7 +75,7 @@ while(<TEST>) {
   @words_ref = split /\s+/;
   $nref+=@words_ref;
 
-  $distance_nounk+=&edit_distance; 
+  $distance_nounk+=&edit_distance;
   $per_nounk+=&position_independent_correct_words;
 }
 
@@ -118,7 +119,7 @@ sub position_independent_correct_words {
       $correct += min($hash_test{$_}, $hash_ref{$_});
     }
   }
-  
+
   return $correct;
 }
 
@@ -163,7 +164,7 @@ sub max {
 
 sub preprocess {
   chomp;
-  s/^\s+//g; 
+  s/^\s+//g;
   s/\s+$//g;
 }
 
@@ -175,28 +176,28 @@ __END__
 
 =head1 SYNOPSIS
 
-apertium-eval-translator -test testfile -ref reffile 
+apertium-eval-translator -test testfile -ref reffile
 
 Options:
 
-  -test|-t     Specify the file with the translation to evaluate 
-  -ref|-r      Specify the file with the reference translation 
+  -test|-t     Specify the file with the translation to evaluate
+  -ref|-r      Specify the file with the reference translation
   -help|-h     Show this help message
   -version|-v  Show version information and exit
-  
+
 Note: Reference translation MUST have no unknown-word marks, even if
       they are free rides.
 
 This software calculates (at document level) the word error rate (WER)
 and the postion-independent word error rate (PER) between a
 translation performed by the Apertium MT system and a reference
-translation obtained by post-editing the system ouput. 
+translation obtained by post-editing the system ouput.
 
 It is assumed that unknow words are marked with a star (*), as
 Apertium does; nevertheless, it can be easily adapted to evaluate
 other MT systems that do not mark unknown words with a star.
 
-(c) 2006 Felipe Sánchez-Martínez
+(c) 2006 Felipe SÃ¡nchez-MartÃ­nez
 (c) 2006 Universitat d'Alacant
 
 This software is licensed under the GNU GENERAL PUBLIC LICENSE version

@@ -1,13 +1,14 @@
-#!/usr/bin/perl -w 
+#!/usr/bin/perl -w
+use utf8;
 
-# (c) 2007 Felipe Sánchez Martínez
+# (c) 2007 Felipe SÃ¡nchez MartÃ­nez
 # (c) 2007 Universitat d'Alacant
 #
-# This software is licensed under the GPL license version 2, or at
-# your option any later version 
+# This software is licensed under the GPL license version 3, or at
+# your option any later version
 #
 
-use strict; 
+use strict;
 use warnings;
 
 # Getting command line arguments:
@@ -95,13 +96,13 @@ my @scores;
 print "Perfoming bootstrap resampling ";
 foreach (1..$times) {
   print ".";
-  my @sampleset=&next_sample_set;  
+  my @sampleset=&next_sample_set;
   push @scores, &eval_sample_set(@sampleset);
   #print "Test $_: ",$scores[$#scores], "\n";
 }
 print " done.\n";
 
-my @sorted_scores = sort { $a <=> $b } @scores; 
+my @sorted_scores = sort { $a <=> $b } @scores;
 
 #foreach(0..$#sorted_scores) {
 #print $sorted_scores[$_], "\n";
@@ -157,21 +158,21 @@ sub eval_sample_set {
   my (@sampleset)=@_;
 
   #Prepare source file
-  open(TMP, ">/tmp/source_file-$$") or die "Error: Cannot open file \'/tmp/source_file-$$\': $!\n";  
+  open(TMP, ">/tmp/source_file-$$") or die "Error: Cannot open file \'/tmp/source_file-$$\': $!\n";
   foreach (@sampleset) {
     print TMP $src_corpus[$_], "\n";
   }
   close(TMP);
 
   #Prepare test file
-  open(TMP, ">/tmp/test_file-$$") or die "Error: Cannot open file \'/tmp/test_file-$$\': $!\n";  
+  open(TMP, ">/tmp/test_file-$$") or die "Error: Cannot open file \'/tmp/test_file-$$\': $!\n";
   foreach (@sampleset) {
     print TMP $test_corpus[$_], "\n";
   }
   close(TMP);
 
   #Prepare reference file
-  open(TMP, ">/tmp/reference_file-$$") or die "Error: Cannot open file \'/tmp/reference_file-$$\': $!\n";  
+  open(TMP, ">/tmp/reference_file-$$") or die "Error: Cannot open file \'/tmp/reference_file-$$\': $!\n";
   foreach (@sampleset) {
     print TMP $ref_corpus[$_], "\n";
   }
@@ -185,7 +186,7 @@ sub eval_sample_set {
   #print STDERR $output, "\n";
 
   `rm /tmp/source_file-$$ /tmp/reference_file-$$ /tmp/test_file-$$`;
-  
+
   return $output;
 }
 
@@ -208,8 +209,8 @@ sub mean {
 
 sub preprocess {
   chomp;
-  #Insert spaces before and after  punctuation marks 
-  #s/([.,;:%¿?¡!()\[\]{}<>])/ $1 /g;
+  #Insert spaces before and after  punctuation marks
+  #s/([.,;:%Â¿?Â¡!()\[\]{}<>])/ $1 /g;
 }
 
 
@@ -225,16 +226,16 @@ reffile -times <n> -eval /full/path/to/eval/script
 Options:
 
   -source|-s   Specify the file with the source file
-  -test|-t     Specify the file with the translations to evaluate 
+  -test|-t     Specify the file with the translations to evaluate
   -ref|-r      Specify the file with the reference translations
   -times|-n    Specify how many times the resampling should be done
   -eval|-e     Specify the full path to the MT evaluation script
   -help|-h     Show this help message
-  
+
 Note: Reference translation MUST have no unknown-word marks, even if
       they are free rides.
 
-(c) 2007 Felipe Sánchez Martínez
+(c) 2007 Felipe SÃ¡nchez MartÃ­nez
 (c) 2007 Universitat d'Alacant
 
 This software is licensed under the GNU GENERAL PUBLIC LICENSE version

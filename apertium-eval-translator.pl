@@ -13,7 +13,7 @@
 # the Levenshtein distance implementation by Jorge Mas Trullenque
 # that can be found in http://www.merriampark.com/ldperl2.htm
 #
-# This software is licensed under the GPL license version 2, or at
+# This software is licensed under the GPL license version 3, or at
 # your option any later version
 #
 

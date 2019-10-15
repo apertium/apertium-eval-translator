@@ -6,7 +6,7 @@
 # performed by the apertium MT system and a reference translation
 # obtained by post-editing the system output; it also uses the original
 # text to compute the coverage of the system's dictionaries.
-# 
+#
 # It "approximates" because it uses "diff -d", which is an approximation
 # to the real edit distance.
 #
@@ -29,14 +29,14 @@ fi
 echo $x"."$y"%"
 }
 
-function diffprocessor { 
+function diffprocessor {
 # Also, I know this is not beautiful
 # but lets me have all in one file
 # I parse the default output of diff -d
 # To compute insertions, deletions and substitutions
 
 
-awk 'BEGIN { FS="[acd,]"} 
+awk 'BEGIN { FS="[acd,]"}
 
 # nd number of deletions
 # ni number of insertions
@@ -56,7 +56,7 @@ awk 'BEGIN { FS="[acd,]"}
 
 # Substitutions
 /^[0-9]+,[0-9]+c[0-9]+,[0-9]+$/ {
-                                 l=($2-$1+1); r=($4-$3+1); n+=l; 
+                                 l=($2-$1+1); r=($4-$3+1); n+=l;
                                  if (l==r) ns+=l;
                                  else if (l>r) {ns+=r; nd+=(l-r);}
                                  else {ns+=l; ni+=(r-l);}
@@ -96,7 +96,7 @@ norigwords=$(cat $FILENAME.o | wc -l)
 cat $FILENAME.raw | tr ' ' '\012' | grep -v ^$ >$FILENAME.rs
 nrawwords=$(cat $FILENAME.rs | wc -l)
 
-# Count stars 
+# Count stars
 norigunknown=$(cat $FILENAME.rs | grep "[*]" | wc -l)
 echo $norigunknown >>$FILENAME.aux
 echo "Number of words in raw translation to be corrected "$FILENAME.raw" : "$nrawwords;
@@ -107,7 +107,7 @@ forigunknown=$(percentage $norigunknown $norigwords)
 echo $forigunknown >>$FILENAME.aux
 echo "Percentage of unknown words in "$FILENAME".raw : "$forigunknown
 
-# Remove stars (avoid second translation) and 
+# Remove stars (avoid second translation) and
 # generate raw file with one word per line and no blank lines
 cat $FILENAME.raw | sed 's/[*]//g' | tr ' ' '\012' | \
 grep -v ^$ >$FILENAME.r
@@ -139,7 +139,7 @@ echo $error_rate  >>$FILENAME.aux
 
 # Number of "free rides" (unknown words which came out right)
 nfree=$[nedits_stars-nedits_nostars]
-error_rate2=$(percentage $nedits_stars $nrawwords) 
+error_rate2=$(percentage $nedits_stars $nrawwords)
 echo "Number of unknown words which were free rides : "$nfree
 echo "Number of 1-word edit operations needed (incl. unknown) :"$nedits_stars
 echo "Percent error rate taking unknown words into account : "$error_rate2

@@ -1,16 +1,17 @@
-#!/usr/bin/perl -w 
+#!/usr/bin/perl -w
+use utf8;
 
-# (c) 2006-2010 Felipe Sánchez Martínez
+# (c) 2006-2010 Felipe SÃ¡nchez MartÃ­nez
 # (c) 2006-2010 Universitat d'Alacant
 #
-# This software calculates  the position-independent word error 
-# rate (PER) between an automatic translation and a reference 
+# This software calculates  the position-independent word error
+# rate (PER) between an automatic translation and a reference
 #translation.
 #
 # This software is licensed under the GPL license version 3, or at
-# your option any later version 
+# your option any later version
 
-use strict; 
+use strict;
 use warnings;
 
 # Getting command line arguments:
@@ -49,13 +50,13 @@ my $line = 0;
 
 while(<TEST>) {
   chomp;
-  s/^\s+//g; 
+  s/^\s+//g;
   s/\s+$//g;
   @words_test = split /\s+/;
 
   $_=<REF>;
   chomp;
-  s/^\s+//g; 
+  s/^\s+//g;
   s/\s+$//g;
   @words_ref = split /\s+/;
 
@@ -93,7 +94,7 @@ sub position_independent_correct_words {
       $correct += min($hash_test{$_}, $hash_ref{$_});
     }
   }
-  
+
   return $correct;
 }
 
@@ -123,21 +124,21 @@ __END__
 
 =head1 SYNOPSIS
 
-PER.pl -test testfile -ref reffile 
+PER.pl -test testfile -ref reffile
 
 Options:
 
-  -test|-t     Specify the file with the translation to evaluate 
+  -test|-t     Specify the file with the translation to evaluate
   -ref|-r      Specify the file with the reference translation (only one)
   -seg|-s      Report PER also at segment level
   -help|-h     Show this help message
   -version|-v  Show version information and exit
-  
-This software calculates (at segment level and document level) 
-the position-independent error rate (PER) between an automatic translation
-and a reference translation. 
 
-(c) 2006-2010 Felipe Sánchez-Martínez
+This software calculates (at segment level and document level)
+the position-independent error rate (PER) between an automatic translation
+and a reference translation.
+
+(c) 2006-2010 Felipe SÃ¡nchez-MartÃ­nez
 (c) 2006-2010 Universitat d'Alacant
 
 This software is licensed under the GNU GENERAL PUBLIC LICENSE version

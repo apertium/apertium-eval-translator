@@ -22,12 +22,12 @@ function gen_xml_file {
   echo "<mteval>" >> $3
 
   echo "<"$2" setid=\"mteval-01\" srclang=\"Source\" trglang=\"Target\" refid=\""$4"\" sysid=\""$4"\">" >> $3
-  
+
   echo "<doc docid=\"01\" genre=\"genre\">" >> $3
   cat  $1 | gawk 'BEGIN{id=1}{print "<p><seg id=\""id"\">"$0"</seg></p>"; id++}' >> $3
   echo "</doc>" >> $3
   echo "</"$2">" >> $3
-  
+
   echo "</mteval>" >> $3
 }
 

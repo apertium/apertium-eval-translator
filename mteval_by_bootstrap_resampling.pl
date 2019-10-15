@@ -1,13 +1,14 @@
-#!/usr/bin/perl -w 
+#!/usr/bin/perl -w
+use utf8;
 
-# (c) 2007-2011 Felipe Sánchez Martínez
+# (c) 2007-2011 Felipe SÃ¡nchez MartÃ­nez
 # (c) 2007-2011 Universitat d'Alacant
 #
 # This software is licensed under the GPL license version 3, or at
-# your option any later version 
+# your option any later version
 #
 
-use strict; 
+use strict;
 use warnings;
 
 # Getting command line arguments:
@@ -117,7 +118,7 @@ my @scoresb;
 print "Perfoming bootstrap resampling ";
 foreach (1..$times) {
   print ".";
-  my @sampleset=&next_sample_set;  
+  my @sampleset=&next_sample_set;
   push @scores, &eval_sample_set(0, @sampleset);
   push @scoresb, &eval_sample_set(1, @sampleset) if ($testb);
 }
@@ -177,7 +178,7 @@ if ($testb) {
   &confidence(0.85, @sorted_diffs);
   &confidence(0.75, @sorted_diffs);
   #&confidence(0.65, @sorted_diffs);
-  #&confidence(0.50, @sorted_diffs); 
+  #&confidence(0.50, @sorted_diffs);
 }
 
 ##########################################################################
@@ -220,14 +221,14 @@ sub eval_sample_set {
   my ($usetestb, @sampleset)=@_;
 
   #Prepare source file
-  open(TMP, ">/tmp/source_file-$usetestb-$$") or die "Error: Cannot open file \'/tmp/source_file-$usetestb-$$\': $!\n";  
+  open(TMP, ">/tmp/source_file-$usetestb-$$") or die "Error: Cannot open file \'/tmp/source_file-$usetestb-$$\': $!\n";
   foreach (@sampleset) {
     print TMP $src_corpus[$_], "\n";
   }
   close(TMP);
 
   #Prepare test file
-  open(TMP, ">/tmp/test_file-$usetestb-$$") or die "Error: Cannot open file \'/tmp/test_file-$usetestb-$$\': $!\n";  
+  open(TMP, ">/tmp/test_file-$usetestb-$$") or die "Error: Cannot open file \'/tmp/test_file-$usetestb-$$\': $!\n";
   foreach (@sampleset) {
     if ($usetestb) {
       print TMP $testb_corpus[$_], "\n";
@@ -238,7 +239,7 @@ sub eval_sample_set {
   close(TMP);
 
   #Prepare reference file
-  open(TMP, ">/tmp/reference_file-$usetestb-$$") or die "Error: Cannot open file \'/tmp/reference_file-$usetestb-$$\': $!\n";  
+  open(TMP, ">/tmp/reference_file-$usetestb-$$") or die "Error: Cannot open file \'/tmp/reference_file-$usetestb-$$\': $!\n";
   foreach (@sampleset) {
     print TMP $ref_corpus[$_], "\n";
   }
@@ -251,7 +252,7 @@ sub eval_sample_set {
   $output =~ tr/,/./;
 
   `rm /tmp/source_file-$usetestb-$$ /tmp/reference_file-$usetestb-$$ /tmp/test_file-$usetestb-$$`;
-  
+
   return $output;
 }
 
@@ -274,8 +275,8 @@ sub mean {
 
 sub preprocess {
   chomp;
-  #Insert spaces before and after punctuation marks 
-  #s/([.,;:%¿?¡!()\[\]{}<>])/ $1 /g;
+  #Insert spaces before and after punctuation marks
+  #s/([.,;:%Â¿?Â¡!()\[\]{}<>])/ $1 /g;
 }
 
 # References
@@ -294,10 +295,10 @@ mteval_by_bootstrap_resampling.pl -source srcfile -test testfile  [-testb tesfil
 Options:
 
   -source|-s   Specify the source file
-  -test|-t     Specify the translations to evaluate 
+  -test|-t     Specify the translations to evaluate
   -testb|-b    Specify a second set of translations to evaluate (optional)
-  -better|-c   '+' means system A is better than system B if its 
-               get higher scores, '-' means the opposite (optional, 
+  -better|-c   '+' means system A is better than system B if its
+               get higher scores, '-' means the opposite (optional,
                by default='+')
   -ref|-r      Specify the reference translations
   -times|-n    Specify how many times the resampling should be done
@@ -307,7 +308,7 @@ Options:
 If a second translation is provided (see -testb) pair bootstrap resampling
 will also be performed
 
-(c) 2007-2011 Felipe Sánchez Martínez
+(c) 2007-2011 Felipe SÃ¡nchez MartÃ­nez
 (c) 2007-2011 Universitat d'Alacant
 
 This software is licensed under the GNU GENERAL PUBLIC LICENSE version

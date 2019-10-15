@@ -1,19 +1,20 @@
-#!/usr/bin/perl -w 
+#!/usr/bin/perl -w
+use utf8;
 
-# (c) 2006-2010 Felipe Sánchez Martínez
+# (c) 2006-2010 Felipe SÃ¡nchez MartÃ­nez
 # (c) 2006-2010 Universitat d'Alacant
 #
-# This software calculates the word error rate (WER) between an 
+# This software calculates the word error rate (WER) between an
 # automatic translation and a reference translation.
 #
-# The edit_distance procedure used in this script is based on 
-# the Levenshtein distance implementation by Jorge Mas Trullenque 
+# The edit_distance procedure used in this script is based on
+# the Levenshtein distance implementation by Jorge Mas Trullenque
 # that can be found in http://www.mgilleland.com/ld/ldperl2.htm
 #
 # This software is licensed under the GPL license version 3, or at
-# your option any later version 
+# your option any later version
 
-use strict; 
+use strict;
 use warnings;
 
 # Getting command line arguments:
@@ -52,13 +53,13 @@ my $line = 0;
 
 while(<TEST>) {
   chomp;
-  s/^\s+//g; 
+  s/^\s+//g;
   s/\s+$//g;
   @words_test = split /\s+/;
 
   $_=<REF>;
   chomp;
-  s/^\s+//g; 
+  s/^\s+//g;
   s/\s+$//g;
   @words_ref = split /\s+/;
 
@@ -67,7 +68,7 @@ while(<TEST>) {
   my $this_distance = &edit_distance;
   print "LINE $line ", $this_distance/@words_ref, "\n" if ($seg);
 
-  $distance += $this_distance; 
+  $distance += $this_distance;
   $ntest += @words_test;
   $nref += @words_ref;
 }
@@ -116,21 +117,21 @@ __END__
 
 =head1 SYNOPSIS
 
-WER.pl -test testfile -ref reffile 
+WER.pl -test testfile -ref reffile
 
 Options:
 
-  -test|-t     Specify the file with the translation to evaluate 
+  -test|-t     Specify the file with the translation to evaluate
   -ref|-r      Specify the file with the reference translation (only one)
   -seg|-s      Report WER also at segment level
   -help|-h     Show this help message
   -version|-v  Show version information and exit
-  
-This software calculates (at segment level and document level) 
-the word error rate (WER) between an automatic translation
-and a reference translation. 
 
-(c) 2006-2010 Felipe Sánchez-Martínez
+This software calculates (at segment level and document level)
+the word error rate (WER) between an automatic translation
+and a reference translation.
+
+(c) 2006-2010 Felipe SÃ¡nchez-MartÃ­nez
 (c) 2006-2010 Universitat d'Alacant
 
 This software is licensed under the GNU GENERAL PUBLIC LICENSE version
