@@ -1,4 +1,4 @@
-apertium-eval-translator.pl
+apertium-eval-translator
 -------------------------------------------------------------------
 
 Simple Perl script to evaluate Apertium-based machine translation
@@ -14,20 +14,20 @@ without arguments
 
 $ apertium-eval-translator
 
-apertium-eval-translator-line.pl
+apertium-eval-translator-line
 -------------------------------------------------------------------
 Similar to apertium-eval-translator but it assumes that test and reference
 files has the same number of sentences and are in the one-sentence-per-line format
 
-bootstrap_resampling.pl
+bootstrap_resampling
 -------------------------------------------------------------------
 Computes confidence intervals for MT evaluation. See paper
 http://acl.ldc.upenn.edu/acl2004/emnlp/pdf/Koehn.pdf
 
-Scripts wer.sh, ter.sh and bleu.sh ares provided as examples of
+Scripts wer, ter and bleu ares provided as examples of
 the script that needs to be supplied to
-bootstrap_resampling.pl to evaluate MT performance.
-Note: ter.sh and bleu.sh need software not distributed in this package.
+bootstrap_resampling to evaluate MT performance.
+Note: ter and bleu need software not distributed in this package.
 
 -------------------------------------------------------------------
 

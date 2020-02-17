@@ -7,7 +7,7 @@ TEST=$3
 if [[ $# -ne 3 ]]
 then
   echo "Error: Wrong number of parameters"
-  echo "USAGE: ter.sh source reference test"
+  echo "USAGE: ter source reference test"
   exit 1
 fi
 
