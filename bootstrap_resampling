@@ -18,6 +18,8 @@ use Pod::Usage;
 # I/O Handler
 use IO::Handle;
 
+use Math::Random::OO::Bootstrap;
+
 #use locale;
 #use POSIX qw(locale_h);
 #setlocale(LC_ALL,"");
@@ -85,9 +87,10 @@ if ($#test_corpus != $#src_corpus) {
 
 print "Number of samples (sentences): ",  $#test_corpus+1, "\n";
 
+#Initialize the bootstrap resampling with replacement random numbers generator
 my @sample=(0..$#test_corpus);
-
-srand(0.42);
+my $boots = Math::Random::OO::Bootstrap->new(@sample);
+$boots->seed(0.42);
 
 my @scores;
 print "Perfoming bootstrap resampling ";
@@ -146,7 +149,7 @@ sub next_sample_set {
   my @sampleset;
 
   foreach (0..$#sample) {
-    push @sampleset, $sample[int(rand($#sample))];;
+    push @sampleset, $boots->next();
   }
   return @sampleset;
 }
@@ -210,13 +213,14 @@ sub preprocess {
   #s/([.,;:%¿?¡!()\[\]{}<>])/ $1 /g;
 }
 
+
 __END__
 
 =head1 NAME
 
 =head1 SYNOPSIS
 
-mteval_by_bootstrap_resampling.pl -source srcfile -test testfile -ref
+mteval_by_bootstrap_resampling -source srcfile -test testfile -ref
 reffile -times <n> -eval /full/path/to/eval/script
 
 Options:

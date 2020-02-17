@@ -290,7 +290,7 @@ __END__
 
 =head1 SYNOPSIS
 
-mteval_by_bootstrap_resampling.pl -source srcfile -test testfile  [-testb tesfileb] [-better +|-] -ref reffile -times <n> -eval /path/to/eval/script
+mteval_by_bootstrap_resampling -source srcfile -test testfile  [-testb tesfileb] [-better +|-] -ref reffile -times <n> -eval /path/to/eval/script
 
 Options:
 

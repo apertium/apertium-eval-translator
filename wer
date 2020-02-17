@@ -7,8 +7,8 @@ TEST=$3
 if [[ $# -ne 3 ]]
 then
   echo "Error: Wrong number of parameters"
-  echo "USAGE: wer.sh source reference test"
+  echo "USAGE: wer source reference test"
   exit 1
 fi
 
-WER.pl -t $TEST -r $REF
+WER -t $TEST -r $REF

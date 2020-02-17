@@ -1,9 +1,9 @@
-apertium-eval-translator.pl:
+apertium-eval-translator:
 
 (c) 2006 Felipe Sánchez Martínez
 (c) 2006 Universitat d'Alacant
 
-apertium-eval-translator-line.pl:
+apertium-eval-translator-line:
 
 (c) 2006 Felipe Sánchez Martínez
 (c) 2006 Universitat d'Alacant
@@ -13,11 +13,11 @@ apertium-eval:
 (c) 2007 Mikel L. Forcada
 (c) 2007 Universitat d'Alacant
 
-bootstrap_resampling.pl:
+bootstrap_resampling:
 
 (c) 2007 Felipe Sánchez Martínez
 (c) 2007 Universitat d'Alacant
 
-WER.pl and PER.pl:
+WER and PER:
 (c) 2006-2010 Felipe Sánchez Martínez
 (c) 2006-2010 Universitat d'Alacant

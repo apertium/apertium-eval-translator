@@ -7,7 +7,7 @@ TEST=$3
 if [[ $# -ne 3 ]]
 then
   echo "Error: Wrong number of parameters"
-  echo "USAGE: bleu.sh source reference test"
+  echo "USAGE: bleu source reference test"
   exit 1
 fi
 
@@ -36,6 +36,6 @@ gen_xml_file $SRC "srcset" $SRC"-"$$".xml" "SYS"
 gen_xml_file $TEST "tstset" $TEST"-"$$".xml" "SYS"
 gen_xml_file $REF "refset" $REF"-"$$".xml" "SYS"
 
-mteval-v13a.pl -r $REF-$$.xml -s $SRC-$$.xml -t $TEST-$$.xml | grep "BLEU score" | gawk '{print $8}'
+mteval-v13a -r $REF-$$.xml -s $SRC-$$.xml -t $TEST-$$.xml | grep "BLEU score" | gawk '{print $8}'
 
 rm -f $SRC"-"$$".xml" $TEST"-"$$".xml" $REF"-"$$".xml"
