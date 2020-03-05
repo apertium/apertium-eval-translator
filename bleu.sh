@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 SRC=$1
 REF=$2
@@ -24,7 +24,7 @@ function gen_xml_file {
   echo "<"$2" setid=\"mteval-01\" srclang=\"Source\" trglang=\"Target\" refid=\""$4"\" sysid=\""$4"\">" >> $3
 
   echo "<doc docid=\"01\" genre=\"genre\">" >> $3
-  cat  $1 | gawk 'BEGIN{id=1}{print "<p><seg id=\""id"\">"$0"</seg></p>"; id++}' >> $3
+  cat  $1 | sed 's/\&//g' | gawk 'BEGIN{id=1}{print "<p><seg id=\""id"\">"$0"</seg></p>"; id++}' >> $3
   echo "</doc>" >> $3
   echo "</"$2">" >> $3
 
@@ -36,6 +36,6 @@ gen_xml_file $SRC "srcset" $SRC"-"$$".xml" "SYS"
 gen_xml_file $TEST "tstset" $TEST"-"$$".xml" "SYS"
 gen_xml_file $REF "refset" $REF"-"$$".xml" "SYS"
 
-mteval-v13a.pl -r $REF-$$.xml -s $SRC-$$.xml -t $TEST-$$.xml | grep "BLEU score" | gawk '{print $8}'
+./mteval-v14.pl -r $REF-$$.xml -s $SRC-$$.xml -t $TEST-$$.xml | grep "BLEU score" | gawk '{print $8}'
 
 rm -f $SRC"-"$$".xml" $TEST"-"$$".xml" $REF"-"$$".xml"
