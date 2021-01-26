@@ -176,7 +176,7 @@ __END__
 
 =head1 SYNOPSIS
 
-apertium-eval-translator -test testfile -ref reffile
+apertium-eval-translator-line -test testfile -ref reffile
 
 Options:
 

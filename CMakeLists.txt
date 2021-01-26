@@ -4,15 +4,22 @@ project(apertium-eval-translator
 	LANGUAGES NONE
 	)
 
-install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/apertium-eval-translator.pl"
+install(PROGRAMS "apertium-eval-translator.pl"
 	DESTINATION bin
 	RENAME "apertium-eval-translator"
 	)
 
-file(READ "${CMAKE_CURRENT_SOURCE_DIR}/beam-eval-until-stable" _tmp)
+install(PROGRAMS "apertium-eval-translator-line.pl"
+	DESTINATION bin
+	RENAME "apertium-eval-translator-line"
+	)
+
+file(READ "beam-eval-until-stable" _tmp)
 string(REPLACE "apertium-eval-translator.pl" "apertium-eval-translator" _tmp "${_tmp}")
 file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/beam-eval-until-stable" "${_tmp}")
 
-install(PROGRAMS "${CMAKE_CURRENT_BINARY_DIR}/beam-eval-until-stable"
+install(PROGRAMS
+	"apertium-eval"
+	"${CMAKE_CURRENT_BINARY_DIR}/beam-eval-until-stable"
 	DESTINATION bin
 	)
