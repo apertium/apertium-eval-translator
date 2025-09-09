@@ -1,6 +1,6 @@
-cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.18 FATAL_ERROR)
 project(apertium-eval-translator
-	VERSION 1.2.1
+	VERSION 1.2.2
 	LANGUAGES NONE
 	)
 
